@@ -1,5 +1,9 @@
+const { users } = require("../db/users-mock.js");
+
 module.exports = {
   get: (req, res) => {
-    res.send("User: Sarah, Jhon");
+    res.send(users);
   },
 };
+
+
