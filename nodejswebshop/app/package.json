@@ -1,17 +1,18 @@
 {
   "name": "mon_application",
   "version": "1.0.0",
+  "type": "module",
   "description": "Une application Node.js",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js -L"
+    "start": "nodemon server.mjs -L"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.1",
-    "mysql2": "^3.9.3",
-    "sequelize": "^6.37.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
+    "https": "^1.0.0",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.3"
   }
 }
