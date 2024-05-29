@@ -15,9 +15,7 @@ const sequelize = new Sequelize(
   }
 );
 
-
-const User = UserModel(sequelize, DataTypes)
-
+const User = UserModel(sequelize, DataTypes);
 
 let initDb = async () => {
   try {
@@ -34,7 +32,6 @@ let initDb = async () => {
   }
 };
 
-
 const importUsers = async () => {
   for (const user of users) {
     const hash = await bcrypt.hash(user.password, 10); // temps pour hasher = du sel
@@ -43,13 +40,8 @@ const importUsers = async () => {
       password: hash,
       isAdmin: user.isAdmin,
     });
-    console.log(createdUser.toJSON());// -> inspecter les données importés 
-    
+    console.log(createdUser.toJSON()); // -> inspecter les données importés
   }
 };
 
-
-
-
-
-export { sequelize,initDb };
+export { sequelize, initDb, User };
