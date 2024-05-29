@@ -4,51 +4,59 @@ import { auth } from "../auth/auth.mjs";
 
 const userRouter = express();
 
+// Récupérer tous les utilisateurs
 userRouter.get("/", auth, async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: ["id", "username", "isAdmin"],
     });
-
     return res.json({ users });
   } catch (error) {
-    console.error(error);
     return res.status(500).json(error);
   }
 });
 
+// Récupérer un utilisateur par son ID
 userRouter.get("/id/:id/", auth, async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
-    if (user === null) {
-      const message =
-        "L'utilisateur demandé n'existe pas. Merci de réessayer avec un autre identifiant.";
-      return res.status(404).json({ message });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "L'utilisateur demandé n'existe pas." });
     }
-    const message = `L'utilisateur dont l'id vaut ${user.id} a bien été récupéré.`;
-    return res.json({ message, data: user });
+    return res.json({
+      message: `L'utilisateur dont l'id vaut ${user.id} a bien été récupéré.`,
+      data: user,
+    });
   } catch (error) {
-    const message =
-      "L'utilisateur n'a pas pu être récupéré. Merci de réessayer dans quelques instants.";
-    return res.status(500).json({ message, data: error });
+    return res.status(500).json({
+      message: "L'utilisateur n'a pas pu être récupéré.",
+      data: error,
+    });
   }
 });
 
+// Récupérer un utilisateur par son nom d'utilisateur
 userRouter.get("/:username", auth, async (req, res) => {
   try {
-    const username = req.params.username;
-    const user = await User.findOne({ where: { username: username } });
-    if (username === null) {
-      const message =
-        "L'utilisateur demandé n'existe pas. Merci de réessayer avec autre nom.";
-      return res.status(404).json({ message });
+    const user = await User.findOne({
+      where: { username: req.params.username },
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "L'utilisateur demandé n'existe pas." });
     }
-    const message = `L'utilisateur dont l'id vaut a bien été récupéré.`;
-    return res.json({ message, data: user });
+    return res.json({
+      message: `L'utilisateur dont le nom d'utilisateur est ${user.username} a bien été récupéré.`,
+      data: user,
+    });
   } catch (error) {
-    const message =
-      "L'utilisateur n'a pas pu être récupéré. Merci de réessayer dans quelques instants.";
-    return res.status(500).json({ message, data: error });
+    return res.status(500).json({
+      message: "L'utilisateur n'a pas pu être récupéré.",
+      data: error,
+    });
   }
 });
 
